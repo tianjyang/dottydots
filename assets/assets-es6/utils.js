@@ -39,3 +39,21 @@ export const vectorMagnitude = (vector) => {
   let y = vector[1];
   return Math.sqrt(x*x + y*y);
 };
+
+export const dotProduct = (vector1,vector2) => {
+  return (vector1[0]*vector2[0] + vector1[1]*vector2[1]);
+};
+
+export const coordFromObj = (obj) => {
+  return [obj.x,obj.y];
+};
+
+export const vectorScale = (vector,scale) => {
+  let x = vector[0];
+  let y = vector[1];
+  return ([x*scale,y*scale]);
+};
+
+export const setVectorMagnitude = (vector,magnitude) => {
+  return vectorScale(vector,magnitude/vectorMagnitude(vector));
+};
