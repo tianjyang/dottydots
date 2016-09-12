@@ -18,8 +18,6 @@ class MovingObjects extends createjs.Shape {
   updatePos() {
     this.x += this.vel[0];
     this.y += this.vel[1];
-    // this.shape.x += this.vel[0];
-    // this.shape.y += this.vel[1];
   }
 }
 
