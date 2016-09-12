@@ -3,15 +3,15 @@ import * as Util from './utils.js';
 class MovingObjects extends createjs.Shape {
   constructor (stage,game,options) {
     super();
-    this.x = options.pos[0];
-    this.y = options.pos[1];
     this.vel = options.vel;
     this.radius = options.radius;
     this.color = options.color;
     this.game = game;
-    this.graphics.beginFill("#0000FF").drawCircle(this.x,this.y,this.radius);
-    stage.addChild(this.shape);
+    stage.addChild(this);
     this.updatePos = this.updatePos.bind(this);
+    this.graphics.beginFill("#0000FF").drawCircle(0,0,this.radius);
+    this.x = options.pos[0];
+    this.y = options.pos[1];
     return this;
   }
 
