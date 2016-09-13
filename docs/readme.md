@@ -2,15 +2,19 @@
 
 ## Background
 Dotty Dots is a game with a simple goal: eat your neighbors until you are the sole circle remaining in the world. Users control a character and traverse a 2D environment, eating smaller circles (or colliding their character into them) while avoiding larger circles. There are four rules to the game:
+
 1. Eat smaller circles
 1. Don't get eaten by larger circles
 1. Small circles will avoid your character
 1. Large circles will charge at your character
 
 ## Functionality
-While playing Dotty Dots, players will have the option to:
+Dotty Dots will have functionality to:
+
 1. Control a character with the W A S and D keys
-1. Press the spacebar key to activate an emergency lifesaving measure
+1. Detect collisions between the character, other dots, and the edge of the canvas
+1. Vector math to calculate trajectorys of characters
+1. Ability of other characters to either charge or flee from the character
 
 ## Wireframes
 This app will consist of a single screen which contains a title, a HTML canvas element, and links to an about modal, my linkedin profile, and my github account.
@@ -19,6 +23,7 @@ This app will consist of a single screen which contains a title, a HTML canvas e
 
 ## Architecture
 This app will be implemented using the following libraries:
+
 1. Vanilla javascript and jquery for DOM management
 1. Webpack to bundle files
 1. EaselJS to render HTML 5 elements
