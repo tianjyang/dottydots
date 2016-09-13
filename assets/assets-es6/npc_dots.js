@@ -43,8 +43,8 @@ class NpcDots extends MovingObjects {
     let pos2 = Util.coordFromObj(userDot);
     let vectorSelfToA = Util.vectorBetweenCenters(pos2,pos1);
     let vectorSelftoA = Util.normalizedVector(vectorSelfToA);
-    this.vel[0] = 0.005*vectorSelfToA[0];
-    this.vel[1] = 0.005*vectorSelfToA[1];
+    this.vel[0] += 0.001*vectorSelfToA[0];
+    this.vel[1] += 0.001*vectorSelfToA[1];
   }
 
   affectedByUser(userDot) {

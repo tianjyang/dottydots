@@ -7,55 +7,110 @@ class Game {
     this.stage = stage;
     this.movingObjects = [];
     this.run = this.run.bind(this);
-    this.addDots();
+    this.addDots.bind(this)();
     this.handleKeyboard = this.handleKeyboard.bind(this);
+    this.gameStatus = 0;
+
 
   }
 
-  addDots(){
-    let opt1 = {
-      pos: [400,250],
-      vel:[0.5,0.5],
-      radius: 50,
-      color: "rgb(0,255,0)"
-    };
-    let opt2 = {
-      pos: [600,250],
-      vel:[0.5,-0.5],
-      radius: 50,
-      color: "rgb(0,255,0)"
-    };
-    let opt3 = {
-      pos: [100,400],
-      vel:[-1,1],
-      radius: 50,
-      color: "#0000FF"
-    };
-    let opt4 = {
-      pos: [800,400],
-      vel:[1,1],
-      radius: 50,
-      color: "#0000FF"
-    };
-    let optUsers = {
-      pos: [450,250],
-      vel:[0,0],
-      radius: 10,
-      color: "rgb(0,0,255)"
-    };
-    let temp1 = new NpcDots(this.stage,this,opt1);
-    let temp2 = new NpcDots(this.stage,this,opt2);
-    let temp3 = new UserDot(this.stage,this,optUsers);
-    // let temp3 = new MovingObjects(this.stage,this,opt3);
-    // let temp4 = new MovingObjects(this.stage,this,opt4);
-    this.movingObjects.push(temp1);
-    this.movingObjects.push(temp2);
-    this.userDot = temp3;
+  addDots() {
+    let temp;
+    let tempPos;
 
-    // this.movingObjects.push(temp3);
-    // this.movingObjects.push(temp4);
+    const collisionBoolean = () => {
+      return true;
+    };
+
+    let largeDotOpts = {
+      radius:75
+    };
+
+    let mediumLargeDotOpts = {
+      radius:60
+    };
+
+    let mediumDotOpts = {
+      radius:45
+    };
+
+    let smallMedDotOpts = {
+      radius:30
+    };
+
+    let smallDotOpts = {
+      radius:15
+    };
+
+    let microDotOpts = {
+      radius:5
+    };
+
+    let userDotOpts = {
+      radius:10
+    };
+    // for (let i = 0; i < 2; i++) {
+    //   temp = new NpcDots(this.stage,this,largeDotOpts);
+    //   this.movingObjects.push(temp);
+    // }
+    //
+    // for (let i = 0; i < 5; i++) {
+    //   temp = new NpcDots(this.stage,this,mediumLargeDotOpts);
+    //   this.movingObjects.push(temp);
+    // }
+    //
+    // for (let i = 0; i < 10; i++) {
+    //   temp = new NpcDots(this.stage,this,mediumDotOpts);
+    //   this.movingObjects.push(temp);
+    // }
+
+    for (let i = 0; i < 10; i++) {
+      temp = new NpcDots(this.stage,this,smallMedDotOpts);
+      this.movingObjects.push(temp);
+    }
+    for (let i = 0; i < 10; i++) {
+      temp = new NpcDots(this.stage,this,smallDotOpts);
+      this.movingObjects.push(temp);
+    }
+
+    for (let i = 0; i < 15; i++) {
+      temp = new NpcDots(this.stage,this,microDotOpts);
+      this.movingObjects.push(temp);
+    }
+
+
+    temp = new UserDot(this.stage, this, userDotOpts);
+    this.userDot = temp;
     this.stage.update();
   }
+
+  // addDots(){
+  //   let opt1 = {
+  //     pos: [100,250],
+  //     vel:[0.5,0.5],
+  //     radius: 50,
+  //     color: "rgb(0,255,0)"
+  //   };
+  //   let opt2 = {
+  //     pos: [800,250],
+  //     vel:[0.5,-0.5],
+  //     radius: 50,
+  //     color: "rgb(0,255,0)"
+  //   };
+  //   let optUsers = {
+  //     pos: [450,250],
+  //     vel:[0,0],
+  //     radius: 10,
+  //     color: "rgb(0,0,255)"
+  //   };
+  //   let temp1 = new NpcDots(this.stage,this,opt1);
+  //   let temp2 = new NpcDots(this.stage,this,opt2);
+  //   let temp3 = new UserDot(this.stage,this,optUsers);
+  //   this.movingObjects.push(temp1);
+  //   this.movingObjects.push(temp2);
+  //   this.userDot = temp3;
+  //   this.stage.update();
+  // }
 
   handleKeyboard(){
     let impulse = [0,0];
@@ -83,13 +138,21 @@ class Game {
         el.updatePos();
         el.updateVelocity(this.userDot);
       });
-      this.userDot.updatePos();
+
+      switch (this.gameStatus) {
+        case -1:
+          console.log("you lose!");
+          break;
+        default:
+          this.userDot.updatePos();
+      }
+
 
 
 
 
       this.checkCollisions(this.bounceTwoEntities);
-
+      this.checkUserCollision();
       this.stage.update();
     };
     const ticker = createjs.Ticker;
@@ -125,6 +188,26 @@ class Game {
         }
       }
     }
+  }
+
+  checkUserCollision(){
+    let radius2, pos2, distance;
+    let radius1 = this.userDot.radius;
+    let pos1 = Util.coordFromObj(this.userDot);
+    this.movingObjects.forEach((el)=>{
+      radius2 = el.radius;
+      pos2 = Util.coordFromObj(el);
+      distance = Util.distanceBetweenPoints(pos1,pos2);
+      if ((radius1 + radius2) > distance) {
+        if ( radius1 > radius2 ) {
+          this.userDot.radius += 1;
+          this.stage.removeChild(el);
+        } else {
+          this.stage.removeChild(this.userDot)
+          this.gameStatus = -1;
+        }
+      }
+    })
   }
 }
 

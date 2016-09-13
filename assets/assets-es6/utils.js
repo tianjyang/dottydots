@@ -1,8 +1,20 @@
-export const randomVec = (length) => {
+export const randomVecOfLength = (length) => {
   let direction = Math.random() * Math.PI * 2;
   let xComponent = (Math.cos(direction) * length);
   let yComponent = (Math.sin(direction) * length);
   return [xComponent,yComponent];
+};
+
+export const initialSetupRandomPos = (x,y) => {
+  let outputX = 450;
+  let outputY = 250;
+  while (outputX < 550 && outputX > 350 ) {
+    outputX = Math.random()*x;
+  }
+  while (outputY < 350 && outputX > 150 ) {
+    outputY = Math.random()*y;
+  }
+  return [outputX, outputY];
 };
 
 export const distanceBetweenPoints = (pos1, pos2) => {
