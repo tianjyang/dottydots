@@ -15,15 +15,15 @@ class Game {
   addDots(){
     let opt1 = {
       pos: [400,250],
-      vel:[1,1],
+      vel:[0.5,0.5],
       radius: 50,
-      color: "#0000FF"
+      color: "rgb(0,255,0)"
     };
     let opt2 = {
       pos: [600,250],
-      vel:[0.5,1],
+      vel:[0.5,-0.5],
       radius: 50,
-      color: "rgb(0,255,100)"
+      color: "rgb(0,255,0)"
     };
     let opt3 = {
       pos: [100,400],
@@ -41,7 +41,7 @@ class Game {
       pos: [450,250],
       vel:[0,0],
       radius: 10,
-      color: "#00FF00"
+      color: "rgb(0,0,255)"
     };
     let temp1 = new NpcDots(this.stage,this,opt1);
     let temp2 = new NpcDots(this.stage,this,opt2);
@@ -60,16 +60,16 @@ class Game {
   handleKeyboard(){
     let impulse = [0,0];
     if(key.isPressed("w")) {
-      impulse[1] = -.1;
+      impulse[1] = -.05;
     }
     if (key.isPressed("a"))  {
-      impulse[0] = -.1;
+      impulse[0] = -.05;
     }
     if (key.isPressed("d"))  {
-      impulse[0] = .1;
+      impulse[0] = .05;
     }
     if (key.isPressed("s"))  {
-      impulse[1] = .1;
+      impulse[1] = .05;
     }
     // console.log("impulse is ",impulse);
     this.userDot.updateVelocity(impulse)
@@ -81,8 +81,10 @@ class Game {
       this.handleKeyboard();
       this.movingObjects.forEach((el)=>{
         el.updatePos();
+        el.updateVelocity(this.userDot);
       });
       this.userDot.updatePos();
+
 
 
 
