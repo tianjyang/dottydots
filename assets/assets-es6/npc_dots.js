@@ -9,7 +9,6 @@ class NpcDots extends MovingObjects {
     this.normalColor = [0,255,0];
     this.angryColor = [255,0,0];
     this.currentColor = [0,255,0];
-    // this.displayColor = this.graphics._fill;
     this.transitionColor = this.transitionColor.bind(this);
 
   }
@@ -35,16 +34,15 @@ class NpcDots extends MovingObjects {
     vectorSelfToA = Util.normalizedVector(vectorSelfToA);
     this.vel[0] += 0.005*vectorSelfToA[0];
     this.vel[1] += 0.005*vectorSelfToA[1];
-    // console.log(this.vel);
   }
 
   runAwayFrom(userDot) {
     let pos1 = Util.coordFromObj(this);
     let pos2 = Util.coordFromObj(userDot);
     let vectorSelfToA = Util.vectorBetweenCenters(pos2,pos1);
-    let vectorSelftoA = Util.normalizedVector(vectorSelfToA);
-    this.vel[0] += 0.001*vectorSelfToA[0];
-    this.vel[1] += 0.001*vectorSelfToA[1];
+    vectorSelfToA = Util.normalizedVector(vectorSelfToA);
+    this.vel[0] += 0.01*vectorSelfToA[0];
+    this.vel[1] += 0.01*vectorSelfToA[1];
   }
 
   affectedByUser(userDot) {

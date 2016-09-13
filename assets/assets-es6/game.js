@@ -1,6 +1,7 @@
 import NpcDots from './npc_dots';
 import * as Util from './utils';
 import UserDot from './user_dot';
+import StartScreen from './start_screen';
 
 class Game {
   constructor(stage) {
@@ -9,9 +10,9 @@ class Game {
     this.run = this.run.bind(this);
     this.addDots.bind(this)();
     this.handleKeyboard = this.handleKeyboard.bind(this);
-    this.gameStatus = 0;
-
-
+    this.checkUserCollision = this.checkUserCollision.bind(this);
+    this.gameStatus = "StartScreen";
+    this.startScreenShowing = false;
   }
 
   addDots() {
@@ -59,12 +60,12 @@ class Game {
     //   this.movingObjects.push(temp);
     // }
     //
-    // for (let i = 0; i < 10; i++) {
-    //   temp = new NpcDots(this.stage,this,mediumDotOpts);
-    //   this.movingObjects.push(temp);
-    // }
+    for (let i = 0; i < 2; i++) {
+      temp = new NpcDots(this.stage,this,mediumDotOpts);
+      this.movingObjects.push(temp);
+    }
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       temp = new NpcDots(this.stage,this,smallMedDotOpts);
       this.movingObjects.push(temp);
     }
@@ -133,27 +134,55 @@ class Game {
 
   run () {
     const handleTick = (e) => {
-      this.handleKeyboard();
-      this.movingObjects.forEach((el)=>{
-        el.updatePos();
-        el.updateVelocity(this.userDot);
-      });
-
       switch (this.gameStatus) {
-        case -1:
-          console.log("you lose!");
+        case "StartScreen":
+          this.movingObjects.forEach((el)=>{
+            el.updatePos();
+          });
+
+          if (!this.startScreenShowing) {
+            const Title = new createjs.Text("Dotty Dots", "50px Arial", "#00AAAA");
+            Title.x = 100;
+            Title.y = 200;
+            Title.textBaseline = "alphabetic";
+            this.stage.addChild(Title);
+            const Instructions = new createjs.Text("Eat smaller dots to grow and don't get eaten!", "20px Arial", "#00AAAA");
+            Instructions.x = 100;
+            Instructions.y = 250;
+            Instructions.textBaseline = "alphabetic";
+            this.stage.addChild(Instructions)
+            const Controls = new createjs.Text("Use WASD to move", "20px Arial", "#00AAAA");
+            Controls.x = 100;
+            Controls.y = 280;
+            Controls.textBaseline = "alphabetic";
+            this.stage.addChild(Controls)
+            const Confirm = new createjs.Text("Press SpaceBar to Start!", "20px Arial", "#00AAAA");
+            Confirm.x = 100;
+            Confirm.y = 310;
+            Confirm.textBaseline = "alphabetic";
+            this.stage.addChild(Confirm)
+            this.startScreenShowing = true;
+          }
+          this.stage.update();
           break;
-        default:
+        case "Playing":
+          if (this.startScreenShowing) {
+
+          }
+
+          this.handleKeyboard();
+          this.movingObjects.forEach((el)=>{
+            el.updatePos();
+            el.updateVelocity(this.userDot);
+          });
           this.userDot.updatePos();
+          this.checkCollisions(this.bounceTwoEntities);
+          this.checkUserCollision();
+          this.stage.update();
+        break;
+        default:
       }
 
-
-
-
-
-      this.checkCollisions(this.bounceTwoEntities);
-      this.checkUserCollision();
-      this.stage.update();
     };
     const ticker = createjs.Ticker;
     ticker.framerate = 60;
@@ -194,17 +223,19 @@ class Game {
     let radius2, pos2, distance;
     let radius1 = this.userDot.radius;
     let pos1 = Util.coordFromObj(this.userDot);
-    this.movingObjects.forEach((el)=>{
+    this.movingObjects.forEach((el,idx)=>{
       radius2 = el.radius;
       pos2 = Util.coordFromObj(el);
       distance = Util.distanceBetweenPoints(pos1,pos2);
+      const thisScope = this
       if ((radius1 + radius2) > distance) {
         if ( radius1 > radius2 ) {
-          this.userDot.radius += 1;
-          this.stage.removeChild(el);
+          thisScope.userDot.incrementRadius();
+          thisScope.stage.removeChild(el);
+          thisScope.movingObjects.splice(idx,1);
         } else {
-          this.stage.removeChild(this.userDot)
-          this.gameStatus = -1;
+          thisScope.stage.removeChild(thisScope.userDot)
+          thisScope.gameStatus = -1;
         }
       }
     })

@@ -23,9 +23,6 @@ class MovingObjects extends createjs.Shape {
   }
 
   bounceOffWalls() {
-    if (!(this.stage.canvas)) {
-      debugger;
-    }
     let xLimit = this.stage.canvas.width;
     let yLimit = this.stage.canvas.height;
     if ((this.x + this.radius) > xLimit) {
