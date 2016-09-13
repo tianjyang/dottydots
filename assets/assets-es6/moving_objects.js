@@ -10,7 +10,7 @@ class MovingObjects extends createjs.Shape {
     stage.addChild(this);
     this.updatePos = this.updatePos.bind(this);
     // this.bounceOffWalls = this.bounceOffWalls.bind(this);
-    this.graphics.beginFill("#0000FF").drawCircle(0,0,this.radius);
+    this.graphics.beginFill("rgb(0,100,100)").drawCircle(0,0,this.radius);
     this.x = options.pos[0];
     this.y = options.pos[1];
     return this;

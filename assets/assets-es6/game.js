@@ -1,5 +1,6 @@
-import MovingObjects from './moving_objects';
+import NpcDots from './npc_dots';
 import * as Util from './utils';
+import UserDot from './user_dot';
 
 class Game {
   constructor(stage) {
@@ -7,6 +8,8 @@ class Game {
     this.movingObjects = [];
     this.run = this.run.bind(this);
     this.addDots();
+    this.handleKeyboard = this.handleKeyboard.bind(this);
+
   }
 
   addDots(){
@@ -20,7 +23,7 @@ class Game {
       pos: [600,250],
       vel:[0.5,1],
       radius: 50,
-      color: "#0000FF"
+      color: "rgb(0,255,100)"
     };
     let opt3 = {
       pos: [100,400],
@@ -34,26 +37,54 @@ class Game {
       radius: 50,
       color: "#0000FF"
     };
-    let temp1 = new MovingObjects(this.stage,this,opt1);
-    let temp2 = new MovingObjects(this.stage,this,opt2);
+    let optUsers = {
+      pos: [450,250],
+      vel:[0,0],
+      radius: 10,
+      color: "#00FF00"
+    };
+    let temp1 = new NpcDots(this.stage,this,opt1);
+    let temp2 = new NpcDots(this.stage,this,opt2);
+    let temp3 = new UserDot(this.stage,this,optUsers);
     // let temp3 = new MovingObjects(this.stage,this,opt3);
     // let temp4 = new MovingObjects(this.stage,this,opt4);
     this.movingObjects.push(temp1);
     this.movingObjects.push(temp2);
+    this.userDot = temp3;
+
     // this.movingObjects.push(temp3);
     // this.movingObjects.push(temp4);
     this.stage.update();
+  }
 
-
+  handleKeyboard(){
+    let impulse = [0,0];
+    if(key.isPressed("w")) {
+      impulse[1] = -.1;
+    }
+    if (key.isPressed("a"))  {
+      impulse[0] = -.1;
+    }
+    if (key.isPressed("d"))  {
+      impulse[0] = .1;
+    }
+    if (key.isPressed("s"))  {
+      impulse[1] = .1;
+    }
+    // console.log("impulse is ",impulse);
+    this.userDot.updateVelocity(impulse)
   }
 
 
   run () {
     const handleTick = (e) => {
+      this.handleKeyboard();
       this.movingObjects.forEach((el)=>{
         el.updatePos();
-        // el.bounceOffWalls();
       });
+      this.userDot.updatePos();
+
+
 
       this.checkCollisions(this.bounceTwoEntities);
 
@@ -61,7 +92,6 @@ class Game {
     };
     const ticker = createjs.Ticker;
     ticker.framerate = 60;
-    console.log(ticker.framerate);
     ticker.addEventListener("tick",handleTick.bind(this));
 
   }
@@ -76,7 +106,6 @@ class Game {
   }
 
   checkCollisions(callback) {
-    console.log("checkingcollision");
     let pos1 = [];
     let pos2 = [];
     let radius1,radius2;
@@ -98,7 +127,6 @@ class Game {
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  console.log("document ready");
   const stage = new createjs.Stage("game-canvas");
   const game = new Game(stage);
   game.run();
