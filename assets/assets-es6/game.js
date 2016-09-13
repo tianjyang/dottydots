@@ -1,7 +1,7 @@
 import NpcDots from './npc_dots';
 import * as Util from './utils';
 import UserDot from './user_dot';
-import StartScreen from './start_screen';
+import { showStartScreen } from './start_screen';
 
 class Game {
   constructor(stage) {
@@ -32,23 +32,28 @@ class Game {
     };
 
     let mediumDotOpts = {
-      radius:45
+      radius:45,
+      vMax: .25
     };
 
     let smallMedDotOpts = {
-      radius:30
+      radius:30,
+      vMax:0.75
     };
 
     let smallDotOpts = {
-      radius:15
+      radius:15,
+      vMax: 1
     };
 
     let microDotOpts = {
-      radius:5
+      radius:5,
+      vMax: 10
     };
 
     let userDotOpts = {
-      radius:10
+      radius:10,
+      vMax:6
     };
     // for (let i = 0; i < 2; i++) {
     //   temp = new NpcDots(this.stage,this,largeDotOpts);
@@ -136,40 +141,39 @@ class Game {
     const handleTick = (e) => {
       switch (this.gameStatus) {
         case "StartScreen":
-          this.movingObjects.forEach((el)=>{
-            el.updatePos();
-          });
-
           if (!this.startScreenShowing) {
-            const Title = new createjs.Text("Dotty Dots", "50px Arial", "#00AAAA");
-            Title.x = 100;
-            Title.y = 200;
-            Title.textBaseline = "alphabetic";
-            this.stage.addChild(Title);
-            const Instructions = new createjs.Text("Eat smaller dots to grow and don't get eaten!", "20px Arial", "#00AAAA");
-            Instructions.x = 100;
-            Instructions.y = 250;
-            Instructions.textBaseline = "alphabetic";
-            this.stage.addChild(Instructions)
-            const Controls = new createjs.Text("Use WASD to move", "20px Arial", "#00AAAA");
-            Controls.x = 100;
-            Controls.y = 280;
-            Controls.textBaseline = "alphabetic";
-            this.stage.addChild(Controls)
-            const Confirm = new createjs.Text("Press SpaceBar to Start!", "20px Arial", "#00AAAA");
-            Confirm.x = 100;
-            Confirm.y = 310;
-            Confirm.textBaseline = "alphabetic";
-            this.stage.addChild(Confirm)
+            this.Title = new createjs.Text("Dotty Dots", "50px Arial", "#00AAAA");
+            this.Title.x = 100;
+            this.Title.y = 200;
+            this.Title.textBaseline = "alphabetic";
+            this.stage.addChild(this.Title);
+            this.Instructions = new createjs.Text("Eat smaller dots to grow but don't get eaten!", "20px Arial", "#00AAAA");
+            this.Instructions.x = 100;
+            this.Instructions.y = 250;
+            this.Instructions.textBaseline = "alphabetic";
+            this.stage.addChild(this.Instructions)
+            this.Controls = new createjs.Text("Use WASD to move", "20px Arial", "#00AAAA");
+            this.Controls.x = 100;
+            this.Controls.y = 280;
+            this.Controls.textBaseline = "alphabetic";
+            this.stage.addChild(this.Controls)
+            this.Confirm = new createjs.Text("Press SpaceBar to Start!", "20px Arial", "#00AAAA");
+            this.Confirm.x = 100;
+            this.Confirm.y = 310;
+            this.Confirm.textBaseline = "alphabetic";
+            this.stage.addChild(this.Confirm)
             this.startScreenShowing = true;
           }
           this.stage.update();
+          if (key.isPressed("space")) {
+            this.gameStatus = "Playing"
+            this.stage.removeChild(this.Title);
+            this.stage.removeChild(this.Instructions);
+            this.stage.removeChild(this.Controls);
+            this.stage.removeChild(this.Confirm)
+          }
           break;
         case "Playing":
-          if (this.startScreenShowing) {
-
-          }
-
           this.handleKeyboard();
           this.movingObjects.forEach((el)=>{
             el.updatePos();
@@ -178,6 +182,23 @@ class Game {
           this.userDot.updatePos();
           this.checkCollisions(this.bounceTwoEntities);
           this.checkUserCollision();
+          this.checkIfWon()
+          this.stage.update();
+        break;
+        case "Lost":
+          this.Title = new createjs.Text("You Lost!", "50px Arial", "#00AAAA");
+          this.Title.x = 100;
+          this.Title.y = 200;
+          this.Title.textBaseline = "alphabetic";
+          this.stage.addChild(this.Title);
+          this.stage.update();
+        break;
+        case "Won":
+          this.Title = new createjs.Text("You Won!", "50px Arial", "#00AAAA");
+          this.Title.x = 100;
+          this.Title.y = 200;
+          this.Title.textBaseline = "alphabetic";
+          this.stage.addChild(this.Title);
           this.stage.update();
         break;
         default:
@@ -188,6 +209,12 @@ class Game {
     ticker.framerate = 60;
     ticker.addEventListener("tick",handleTick.bind(this));
 
+  }
+
+  checkIfWon(){
+    if ( this.stage.children.length === 1 ) {
+      this.gameStatus = "Won"
+    }
   }
 
   bounceTwoEntities(object1,object2) {
@@ -235,7 +262,7 @@ class Game {
           thisScope.movingObjects.splice(idx,1);
         } else {
           thisScope.stage.removeChild(thisScope.userDot)
-          thisScope.gameStatus = -1;
+          thisScope.gameStatus = "Lost";
         }
       }
     })

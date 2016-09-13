@@ -6,7 +6,9 @@ class UserDot extends MovingObjects {
     this.updateVelocity = this.updateVelocity.bind(this);
     this.x = 450;
     this.y = 250;
-    this.vel = [0,0]
+    this.vel = [0,0];
+    this.graphics._fill.style = "rgb(0,0,255)";
+    this.color = "rgb(0,0,255)";
   }
 
   updateVelocity(impulse) {

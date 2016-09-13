@@ -11,7 +11,7 @@ export const initialSetupRandomPos = (x,y) => {
   while (outputX < 550 && outputX > 350 ) {
     outputX = Math.random()*x;
   }
-  while (outputY < 350 && outputX > 150 ) {
+  while (outputY < 350 && outputY > 150 ) {
     outputY = Math.random()*y;
   }
   return [outputX, outputY];

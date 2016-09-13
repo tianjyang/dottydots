@@ -13,6 +13,7 @@ class MovingObjects extends createjs.Shape {
     let randomPos = Utils.initialSetupRandomPos(900,500);
     this.x = randomPos[0];
     this.y = randomPos[1];
+    this.vMax = options.vMax;
     return this;
   }
 
