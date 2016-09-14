@@ -13,6 +13,8 @@ class Game {
     this.checkUserCollision = this.checkUserCollision.bind(this);
     this.gameStatus = "StartScreen";
     this.startScreenShowing = false;
+    createjs.Sound.registerSound("computerbeep_15.mp3", "beep");
+    createjs.Sound.registerSound("hypospray3_clean.mp3", "death");
   }
 
   addDots() {
@@ -90,34 +92,6 @@ class Game {
     this.stage.update();
   }
 
-  // addDots(){
-  //   let opt1 = {
-  //     pos: [100,250],
-  //     vel:[0.5,0.5],
-  //     radius: 50,
-  //     color: "rgb(0,255,0)"
-  //   };
-  //   let opt2 = {
-  //     pos: [800,250],
-  //     vel:[0.5,-0.5],
-  //     radius: 50,
-  //     color: "rgb(0,255,0)"
-  //   };
-  //   let optUsers = {
-  //     pos: [450,250],
-  //     vel:[0,0],
-  //     radius: 10,
-  //     color: "rgb(0,0,255)"
-  //   };
-  //   let temp1 = new NpcDots(this.stage,this,opt1);
-  //   let temp2 = new NpcDots(this.stage,this,opt2);
-  //   let temp3 = new UserDot(this.stage,this,optUsers);
-  //   this.movingObjects.push(temp1);
-  //   this.movingObjects.push(temp2);
-  //   this.userDot = temp3;
-  //   this.stage.update();
-  // }
-
   handleKeyboard(){
     let impulse = [0,0];
     if(key.isPressed("w")) {
@@ -132,7 +106,6 @@ class Game {
     if (key.isPressed("s"))  {
       impulse[1] = .05;
     }
-    // console.log("impulse is ",impulse);
     this.userDot.updateVelocity(impulse)
   }
 
@@ -256,6 +229,7 @@ class Game {
       distance = Util.distanceBetweenPoints(pos1,pos2);
       const thisScope = this
       if ((radius1 + radius2) > distance) {
+        createjs.Sound.play("death")
         if ( radius1 > radius2 ) {
           thisScope.userDot.incrementRadius();
           thisScope.stage.removeChild(el);
