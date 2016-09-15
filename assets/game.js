@@ -106,7 +106,6 @@ class Game {
 
   run () {
     const handleTick = (e) => {
-      console.log(key.isPressed("space"));
       switch (this.gameStatus) {
         case "StartScreen":
           if (!this.startScreenShowing) {
@@ -145,10 +144,11 @@ class Game {
         case "Playing":
           this.handleKeyboard();
           this.movingObjects.forEach((el)=>{
-            el.updatePos();
+            el.updateState(this.userDot);
+            // el.updatePos();
             el.updateVelocity(this.userDot);
           });
-          this.userDot.updatePos();
+          this.userDot.updateState();
           this.checkCollisions(this.bounceTwoEntities);
           this.checkUserCollision();
           this.checkIfWon()

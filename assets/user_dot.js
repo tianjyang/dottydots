@@ -27,13 +27,13 @@ class UserDot extends MovingObjects {
     this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
   }
 
-  updatePos() {
+  updateState() {
     let currentPos = [this.x,this.y]
     if ( Util.distanceBetweenPoints(this.beepPos, currentPos) > 20 ) {
       this.beepPos = [this.x, this.y];
       createjs.Sound.play("beep");
     }
-    super.updatePos();
+    super.updateState();
   }
 }
 export default UserDot;

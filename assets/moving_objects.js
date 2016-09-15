@@ -8,7 +8,7 @@ class MovingObjects extends createjs.Shape {
     this.color = "rgb(0,255,0)";
     this.game = game;
     stage.addChild(this);
-    this.updatePos = this.updatePos.bind(this);
+    this.updateState = this.updateState.bind(this);
     this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
     let randomPos = Utils.initialSetupRandomPos(900,500);
     this.x = randomPos[0];
@@ -20,7 +20,7 @@ class MovingObjects extends createjs.Shape {
     return this;
   }
 
-  updatePos() {
+  updateState(userDot) {
     this.realPosX += this.vel[0];
     this.realPosY += this.vel[1];
     if ( this.stutter ) {
