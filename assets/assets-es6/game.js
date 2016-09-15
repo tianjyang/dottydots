@@ -6,6 +6,7 @@ import { showStartScreen } from './start_screen';
 class Game {
   constructor(stage) {
     this.stage = stage;
+    window.stage = stage;
     this.movingObjects = [];
     this.run = this.run.bind(this);
     this.addDots.bind(this)();
@@ -13,8 +14,10 @@ class Game {
     this.checkUserCollision = this.checkUserCollision.bind(this);
     this.gameStatus = "StartScreen";
     this.startScreenShowing = false;
+    this.endScreenShowing = false;
     createjs.Sound.registerSound("computerbeep_15.mp3", "beep");
-    createjs.Sound.registerSound("hypospray3_clean.mp3", "death");
+    createjs.Sound.registerSound("ent_doorchime.mp3", "death");
+    createjs.Sound.registerSound("force_field_hit.mp3", "bounce");
   }
 
   addDots() {
@@ -57,16 +60,7 @@ class Game {
       radius:10,
       vMax:6
     };
-    // for (let i = 0; i < 2; i++) {
-    //   temp = new NpcDots(this.stage,this,largeDotOpts);
-    //   this.movingObjects.push(temp);
-    // }
-    //
-    // for (let i = 0; i < 5; i++) {
-    //   temp = new NpcDots(this.stage,this,mediumLargeDotOpts);
-    //   this.movingObjects.push(temp);
-    // }
-    //
+
     for (let i = 0; i < 2; i++) {
       temp = new NpcDots(this.stage,this,mediumDotOpts);
       this.movingObjects.push(temp);
@@ -112,6 +106,7 @@ class Game {
 
   run () {
     const handleTick = (e) => {
+      console.log(key.isPressed("space"));
       switch (this.gameStatus) {
         case "StartScreen":
           if (!this.startScreenShowing) {
@@ -140,6 +135,7 @@ class Game {
           this.stage.update();
           if (key.isPressed("space")) {
             this.gameStatus = "Playing"
+            this.startScreenShowing = false;
             this.stage.removeChild(this.Title);
             this.stage.removeChild(this.Instructions);
             this.stage.removeChild(this.Controls);
@@ -159,28 +155,58 @@ class Game {
           this.stage.update();
         break;
         case "Lost":
+        if ( !this.endScreenShowing ) {
           this.Title = new createjs.Text("You Lost!", "50px Arial", "#00AAAA");
           this.Title.x = 100;
           this.Title.y = 200;
           this.Title.textBaseline = "alphabetic";
+          this.subTitle = new createjs.Text("Press Space to Try Again!", "20px Arial", "#00AAAA");
+          this.subTitle.x = 100;
+          this.subTitle.y = 250;
+          this.subTitle.textBaseline = "alphabetic";
           this.stage.addChild(this.Title);
+          this.stage.addChild(this.subTitle);
           this.stage.update();
+          this.endScreenShowing = true;
+        }
+          if (key.isPressed("space")) {
+            this.stage.children = [];
+            this.gameStatus = "Playing";
+            this.endScreenShowing = false;
+            this.movingObjects = []
+            this.addDots();
+          }
         break;
         case "Won":
+        if ( !this.endScreenShowing ) {
           this.Title = new createjs.Text("You Won!", "50px Arial", "#00AAAA");
           this.Title.x = 100;
           this.Title.y = 200;
           this.Title.textBaseline = "alphabetic";
+          this.subTitle = new createjs.Text("Press Space to Play Again!", "20px Arial", "#00AAAA");
+          this.subTitle.x = 100;
+          this.subTitle.y = 250;
+          this.subTitle.textBaseline = "alphabetic";
           this.stage.addChild(this.Title);
+          this.stage.addChild(this.subTitle);
           this.stage.update();
+        }
+
+        if (key.isPressed("space")) {
+          this.stage.children = [];
+          this.gameStatus = "Playing";
+          this.endScreenShowing = false;
+          this.movingObjects = []
+          this.addDots();
+        }
         break;
         default:
       }
 
     };
-    const ticker = createjs.Ticker;
-    ticker.framerate = 60;
-    ticker.addEventListener("tick",handleTick.bind(this));
+    this.ticker = createjs.Ticker;
+    this.ticker.framerate = 60;
+    this.ticker.addEventListener("tick",handleTick.bind(this));
 
   }
 
