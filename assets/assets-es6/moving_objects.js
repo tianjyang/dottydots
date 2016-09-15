@@ -13,13 +13,24 @@ class MovingObjects extends createjs.Shape {
     let randomPos = Utils.initialSetupRandomPos(900,500);
     this.x = randomPos[0];
     this.y = randomPos[1];
+    this.realPosX = this.x;
+    this.realPosY = this.y;
     this.vMax = options.vMax;
+    this.stutter = false;
     return this;
   }
 
   updatePos() {
-    this.x += this.vel[0];
-    this.y += this.vel[1];
+    this.realPosX += this.vel[0];
+    this.realPosY += this.vel[1];
+    if ( this.stutter ) {
+      this.x = this.realPosX + Math.random()*5;
+      this.y = this.realPosY + Math.random()*5;
+    } else {
+      this.x = this.realPosX;
+      this.y = this.realPosY;
+    }
+
     this.bounceOffWalls.bind(this)();
   }
 

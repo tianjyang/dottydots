@@ -17,7 +17,8 @@ class NpcDots extends MovingObjects {
 
   updateVelocity(userDot) {
     if (this.affectedByUser(userDot)){
-      if ( userDot.radius < this.radius ) {
+      this.stutter = true;
+      if ( userDot.radius <= this.radius ) {
         this.transitionColor(this.angryColor);
         this.chargeAtTarget(userDot);
       } else if (userDot.radius > this.radius) {
@@ -25,6 +26,7 @@ class NpcDots extends MovingObjects {
         this.runAwayFrom(userDot);
       }
     } else {
+      this.stutter = false;
       this.transitionColor( this.normalColor );
       if (Util.vectorMagnitude(this.vel) > this.vMax) {
         this.vel = Util.vectorScale(this.vel,0.95);

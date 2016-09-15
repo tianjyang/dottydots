@@ -1,5 +1,5 @@
 import MovingObjects from './moving_objects';
-import * as Util from './utils'
+import * as Util from './utils';
 
 class UserDot extends MovingObjects {
   constructor(stage,game,options) {
@@ -11,6 +11,8 @@ class UserDot extends MovingObjects {
     this.graphics._fill.style = "rgb(0,0,255)";
     this.color = "rgb(0,0,255)";
     this.beepPos = [0,0];
+    this.realPosX = 450;
+    this.realPosY = 250;
   }
 
   updateVelocity(impulse) {
@@ -26,11 +28,15 @@ class UserDot extends MovingObjects {
   }
 
   updatePos() {
+
+    debugger
+
     let currentPos = [this.x,this.y]
     if ( Util.distanceBetweenPoints(this.beepPos, currentPos) > 20 ) {
       this.beepPos = [this.x, this.y];
       createjs.Sound.play("beep");
     }
+    debugger
     super.updatePos();
   }
 }
