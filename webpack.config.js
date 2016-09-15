@@ -2,7 +2,7 @@ var path = require("path");
 
 module.exports = {
   context: __dirname,
-  entry: "./assets/assets-es6/game.js",
+  entry: "./assets/game.js",
   output: {
     // path: path.join(__dirname, 'app', 'assets', 'javascripts'),
     filename: "./lib/bundle.js"
