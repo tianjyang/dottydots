@@ -4,7 +4,7 @@ import * as Util from './utils';
 class NpcDots extends MovingObjects {
   constructor(stage,game,options) {
     super(stage,game,options);
-    this.updateVelocity = this.updateVelocity.bind(this);
+    this.updateState = this.updateState.bind(this);
     this.scaredColor = [255,255,0];
     this.normalColor = [0,255,0];
     this.angryColor = [255,0,0];
@@ -15,7 +15,7 @@ class NpcDots extends MovingObjects {
 
   }
 
-  updateVelocity(userDot) {
+  updateState(userDot) {
     if (this.affectedByUser(userDot)){
       this.stutter = true;
       if ( userDot.radius <= this.radius ) {
@@ -32,6 +32,7 @@ class NpcDots extends MovingObjects {
         this.vel = Util.vectorScale(this.vel,0.95);
       }
     }
+    super.updateState(userDot);
   }
 
   chargeAtTarget(userDot) {

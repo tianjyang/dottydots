@@ -1,7 +1,9 @@
 import NpcDots from './npc_dots';
 import * as Util from './utils';
 import UserDot from './user_dot';
+import BlasterDot from './blaster_dot';
 import { showStartScreen } from './start_screen';
+import Bullets from './bullet.js';
 
 class Game {
   constructor(stage) {
@@ -18,6 +20,8 @@ class Game {
     createjs.Sound.registerSound("computerbeep_15.mp3", "beep");
     createjs.Sound.registerSound("ent_doorchime.mp3", "death");
     createjs.Sound.registerSound("force_field_hit.mp3", "bounce");
+    createjs.Sound.registerSound("tng_torpedo_clean.mp3", "blaster");
+    this.bullets = []
   }
 
   addDots() {
@@ -48,7 +52,7 @@ class Game {
 
     let smallDotOpts = {
       radius:15,
-      vMax: 1
+      vMax: 0.25
     };
 
     let microDotOpts = {
@@ -61,24 +65,32 @@ class Game {
       vMax:6
     };
 
-    for (let i = 0; i < 2; i++) {
-      temp = new NpcDots(this.stage,this,mediumDotOpts);
-      this.movingObjects.push(temp);
-    }
+    let blasterDotOpts = {
+      radius:10,
+      vMax:0.25
+    };
 
-    for (let i = 0; i < 5; i++) {
-      temp = new NpcDots(this.stage,this,smallMedDotOpts);
-      this.movingObjects.push(temp);
-    }
-    for (let i = 0; i < 10; i++) {
+    // for (let i = 0; i < 2; i++) {
+    //   temp = new NpcDots(this.stage,this,mediumDotOpts);
+    //   this.movingObjects.push(temp);
+    // }
+    //
+    // for (let i = 0; i < 5; i++) {
+    //   temp = new NpcDots(this.stage,this,smallMedDotOpts);
+    //   this.movingObjects.push(temp);
+    // }
+    for (let i = 0; i < 1; i++) {
       temp = new NpcDots(this.stage,this,smallDotOpts);
       this.movingObjects.push(temp);
     }
 
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 5; i++) {
       temp = new NpcDots(this.stage,this,microDotOpts);
       this.movingObjects.push(temp);
     }
+
+    temp = new BlasterDot(this.stage,this,blasterDotOpts);
+    this.movingObjects.push(temp)
 
 
     temp = new UserDot(this.stage, this, userDotOpts);
@@ -145,8 +157,13 @@ class Game {
           this.handleKeyboard();
           this.movingObjects.forEach((el)=>{
             el.updateState(this.userDot);
-            // el.updatePos();
-            el.updateVelocity(this.userDot);
+          });
+          this.bullets.forEach((el,idx)=>{
+            el.updateState(this.userDot);
+            if (el.timeCount >= 100) {
+              this.bullets.splice(idx,1);
+              this.stage.removeChild(el);
+            }
           });
           this.userDot.updateState();
           this.checkCollisions(this.bounceTwoEntities);
@@ -174,6 +191,7 @@ class Game {
             this.gameStatus = "Playing";
             this.endScreenShowing = false;
             this.movingObjects = []
+            this.bullets=[];
             this.addDots();
           }
         break;
@@ -249,11 +267,21 @@ class Game {
     let radius2, pos2, distance;
     let radius1 = this.userDot.radius;
     let pos1 = Util.coordFromObj(this.userDot);
+    const thisScope = this
+
+    this.bullets.forEach((el)=>{
+      radius2 = el.radius;
+      pos2 = Util.coordFromObj(el);
+      distance = Util.distanceBetweenPoints(pos1,pos2);
+      if ((radius1 + radius2) > distance) {
+        thisScope.stage.removeChild(thisScope.userDot)
+        thisScope.gameStatus = "Lost";
+      }
+    })
     this.movingObjects.forEach((el,idx)=>{
       radius2 = el.radius;
       pos2 = Util.coordFromObj(el);
       distance = Util.distanceBetweenPoints(pos1,pos2);
-      const thisScope = this
       if ((radius1 + radius2) > distance) {
         createjs.Sound.play("death")
         if ( radius1 > radius2 ) {
@@ -266,6 +294,22 @@ class Game {
         }
       }
     })
+  }
+
+  addBullet(sourceDot) {
+    let pos1 = Util.coordFromObj(sourceDot);
+    let pos2 = Util.coordFromObj(this.userDot);
+    let vector = [pos2[0]-pos1[0],pos2[1]-pos1[1]];
+    let bulletDotOpts = {
+      radius:5,
+      vel: Util.setVectorMagnitude(vector,10),
+      pos: pos1
+    };
+
+
+    let temp = new Bullets(this.stage, this, bulletDotOpts)
+    this.bullets.push(temp)
+
   }
 }
 
