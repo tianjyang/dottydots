@@ -10,7 +10,7 @@ class NpcDots extends MovingObjects {
     this.angryColor = [255,0,0];
     this.currentColor = [0,255,0];
     this.transitionColor = this.transitionColor.bind(this);
-    // this.accelScale = (0.5/this.radius)
+
     this.accelScale = 0.05;
 
   }
@@ -37,8 +37,8 @@ class NpcDots extends MovingObjects {
     let pos2 = Util.coordFromObj(userDot);
     let vectorSelfToA = Util.vectorBetweenCenters(pos1,pos2);
     vectorSelfToA = Util.normalizedVector(vectorSelfToA);
-    this.vel[0] += 0.005*vectorSelfToA[0];
-    this.vel[1] += 0.005*vectorSelfToA[1];
+    this.vel[0] += 0.01*vectorSelfToA[0];
+    this.vel[1] += 0.01*vectorSelfToA[1];
   }
 
   runAwayFrom(userDot) {
