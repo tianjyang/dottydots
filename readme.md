@@ -32,45 +32,6 @@ This app will be implemented using the following libraries:
 1. EaselJS to render HTML 5 elements
 1. SoundJS to play sound effects as applicable.
 
-## Implementation Timeline
-Day 1:  
-Complete a lot of the initial set up and being learning about Easel
-* Complete html document which will house the game
-* Configure webpack
-* Set up github Repo
-* Configure package.json as needed
-* Learn about Easel
-
-Day 2:  
-Develop a moving objects class which will have methods to:
-* Update location
-* Determine collisions with border
-* Update velocity based on border collisions
-* Remove itself from the canvas
-
-Develop an instance of the moving object class for other circles which will have methods to:
-* Determine collisions with other objects
-* Update velocity based on type of colliding object
-
-Develop an instance of the moving object class for the user circle which will have methods to:
-* Change the velocity of the character based on keyboard inputs
-* Push other circles away from the character on a spacebar input
-* Update it's own size based on collisions with other objects
-
-Day 3:
-Develop game logic which will
-* Initiate on document load
-* Provide instructions to the user
-* Populate the game with instances of the other circle
-* Determine if the player is still alive or not
-* Develop methods for circles to charge or flee from the user based on the relative radii
-* Displays an image indicating you lost if the character has died
-
-Day 4:
-* Style as needed
-* Add sound effects for eating and being eaten situations
-* Develop a new class of objects which fires bullets at player
-
 ## Sample Code
 ### Color Transition
 The following code was developed to transition a npc dot to a different color depending on whether it was frightened or angry at the user. Color is stored as a three element array (corresponding to rgb values) and represents an asymptotic transition to the target color.
