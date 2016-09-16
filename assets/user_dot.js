@@ -13,11 +13,16 @@ class UserDot extends MovingObjects {
     this.beepPos = [0,0];
     this.realPosX = 450;
     this.realPosY = 250;
+    this.vaMx = options.vMax;
   }
 
   updateVelocity(impulse) {
     this.vel[0] += impulse[0];
     this.vel[1] += impulse[1];
+    if ( Util.vectorMagnitude(this.vel) > this.vMax ) {
+      this.vel = Util.setVectorMagnitude(this.vel,this.vMax);
+    }
+
   }
 
   incrementRadius(){

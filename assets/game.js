@@ -11,12 +11,13 @@ class Game {
     window.stage = stage;
     this.movingObjects = [];
     this.run = this.run.bind(this);
-    this.addDots.bind(this)();
+    // this.addDots.bind(this)();
     this.handleKeyboard = this.handleKeyboard.bind(this);
     this.checkUserCollision = this.checkUserCollision.bind(this);
     this.gameStatus = "StartScreen";
     this.startScreenShowing = false;
     this.endScreenShowing = false;
+    this.addBlasterDots = false;
     createjs.Sound.registerSound("computerbeep_15.mp3", "beep");
     createjs.Sound.registerSound("ent_doorchime.mp3", "death");
     createjs.Sound.registerSound("force_field_hit.mp3", "bounce");
@@ -24,21 +25,17 @@ class Game {
     this.bullets = []
   }
 
-  addDots() {
+  addDots(difficulty) {
+    const difficultyObject = {
+      Sample: [5,5,5,5,true],
+      Easy: [6,3,0,0,true],
+      Medium: [10,12,1,0,true],
+      Hard: [15,12,9,2,true]
+    }
+
+    let settings = difficultyObject[difficulty];
     let temp;
     let tempPos;
-
-    const collisionBoolean = () => {
-      return true;
-    };
-
-    let largeDotOpts = {
-      radius:75
-    };
-
-    let mediumLargeDotOpts = {
-      radius:60
-    };
 
     let mediumDotOpts = {
       radius:45,
@@ -70,31 +67,32 @@ class Game {
       vMax:0.25
     };
 
-    // for (let i = 0; i < 2; i++) {
-    //   temp = new NpcDots(this.stage,this,mediumDotOpts);
-    //   this.movingObjects.push(temp);
-    // }
-    //
-    // for (let i = 0; i < 5; i++) {
-    //   temp = new NpcDots(this.stage,this,smallMedDotOpts);
-    //   this.movingObjects.push(temp);
-    // }
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < settings[3]; i++) {
+      temp = new NpcDots(this.stage,this,mediumDotOpts);
+      this.movingObjects.push(temp);
+    }
+
+    for (let i = 0; i < settings[2]; i++) {
+      temp = new NpcDots(this.stage,this,smallMedDotOpts);
+      this.movingObjects.push(temp);
+    }
+    for (let i = 0; i < settings[1]; i++) {
       temp = new NpcDots(this.stage,this,smallDotOpts);
       this.movingObjects.push(temp);
     }
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < settings[0]; i++) {
       temp = new NpcDots(this.stage,this,microDotOpts);
       this.movingObjects.push(temp);
     }
+    if (this.addBlasterDots) {
+      temp = new BlasterDot(this.stage,this,blasterDotOpts);
+      this.movingObjects.push(temp)
+    }
 
-    temp = new BlasterDot(this.stage,this,blasterDotOpts);
-    this.movingObjects.push(temp)
+      temp = new UserDot(this.stage, this, userDotOpts);
+      this.userDot = temp;
 
-
-    temp = new UserDot(this.stage, this, userDotOpts);
-    this.userDot = temp;
     this.stage.update();
   }
 
@@ -121,6 +119,9 @@ class Game {
       switch (this.gameStatus) {
         case "StartScreen":
           if (!this.startScreenShowing) {
+            this.startScreenShowing = true;
+            this.addDots("Sample")
+            this.userDot.x = 1000000
             this.Title = new createjs.Text("Dotty Dots", "50px Arial", "#00AAAA");
             this.Title.x = 100;
             this.Title.y = 200;
@@ -136,22 +137,106 @@ class Game {
             this.Controls.y = 280;
             this.Controls.textBaseline = "alphabetic";
             this.stage.addChild(this.Controls)
-            this.Confirm = new createjs.Text("Press SpaceBar to Start!", "20px Arial", "#00AAAA");
+            this.Confirm = new createjs.Text("Choose Your Difficulty!", "20px Arial", "#00AAAA");
             this.Confirm.x = 100;
             this.Confirm.y = 310;
             this.Confirm.textBaseline = "alphabetic";
-            this.stage.addChild(this.Confirm)
-            this.startScreenShowing = true;
+            this.stage.addChild(this.Confirm);
+            this.Easy = new createjs.Shape();
+            this.Easy.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Easy.x = 100;
+            this.Easy.y = 350;
+            this.stage.addChild(this.Easy);
+            this.EasyText = new createjs.Text("Easy", "20px Arial", "white");
+            this.EasyText.textAlign = "center"
+            this.EasyText.textBaseline = "middle"
+            this.EasyText.x = 137.5;
+            this.EasyText.y = 375;
+            this.stage.addChild(this.EasyText);
+            this.Medium = new createjs.Shape();
+            this.Medium.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Medium.x = 200;
+            this.Medium.y = 350;
+            this.stage.addChild(this.Medium);
+            this.MediumText = new createjs.Text("Medium", "20px Arial", "white");
+            this.MediumText.textAlign = "center"
+            this.MediumText.textBaseline = "middle"
+            this.MediumText.x = 237.5;
+            this.MediumText.y = 375;
+            this.stage.addChild(this.MediumText);
+            this.Hard = new createjs.Shape();
+            this.Hard.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Hard.x = 300;
+            this.Hard.y = 350;
+            this.stage.addChild(this.Hard);
+            this.HardText = new createjs.Text("Hard", "20px Arial", "white");
+            this.HardText.textAlign = "center"
+            this.HardText.textBaseline = "middle"
+            this.HardText.x = 337.5;
+            this.HardText.y = 375;
+            this.stage.addChild(this.HardText);
+
+            this.BlasterOption = new createjs.Shape();
+            this.BlasterOption.graphics.beginFill("red").drawRect(0,0,175,50);
+            this.BlasterOption.x = 400;
+            this.BlasterOption.y = 350;
+            this.stage.addChild(this.BlasterOption);
+            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Arial", "white");
+            this.BlasterOptionText.textAlign = "center"
+            this.BlasterOptionText.textBaseline = "middle"
+            this.BlasterOptionText.x = 487.5;
+            this.BlasterOptionText.y = 375;
+            this.stage.addChild(this.BlasterOptionText);
+
+            this.Easy.addEventListener("click",(event)=>{
+              this.stage.removeAllChildren();
+              this.movingObjects = []
+              this.addDots("Easy")
+              this.gameStatus = "Playing"
+              this.startScreenShowing = false
+            });
+
+            this.Medium.addEventListener("click",(event)=>{
+              this.stage.removeAllChildren();
+              this.movingObjects = []
+              this.addDots("Medium")
+              this.gameStatus = "Playing"
+              this.startScreenShowing = false
+            });
+
+            this.Hard.addEventListener("click",(event)=>{
+              this.stage.removeAllChildren();
+              this.movingObjects = []
+              this.addDots("Hard")
+              this.gameStatus = "Playing"
+              this.startScreenShowing = false
+            });
+
+            this.BlasterOption.addEventListener("click",(event)=>{
+              let thisContext = this;
+              if ( this.addBlasterDots ) {
+                thisContext.addBlasterDots = false;
+                thisContext.BlasterOption.graphics._fill.style="red"
+                thisContext.BlasterOptionText.color = "white"
+              } else {
+                thisContext.addBlasterDots = true;
+                thisContext.BlasterOption.graphics._fill.style="yellow"
+                thisContext.BlasterOptionText.color = "black"
+              }
+            });
           }
           this.stage.update();
-          if (key.isPressed("space")) {
-            this.gameStatus = "Playing"
-            this.startScreenShowing = false;
-            this.stage.removeChild(this.Title);
-            this.stage.removeChild(this.Instructions);
-            this.stage.removeChild(this.Controls);
-            this.stage.removeChild(this.Confirm)
-          }
+          this.movingObjects.forEach((el)=>{
+            el.updateState(this.userDot);
+          });
+
+
+
+          // const easyGame = (event) => {
+          //   this.stage.removeAllChildren();
+          //   this.movingObjects = []
+          //   this.addDots("Easy")
+          // }
           break;
         case "Playing":
           this.handleKeyboard();
@@ -188,15 +273,15 @@ class Game {
         }
           if (key.isPressed("space")) {
             this.stage.children = [];
-            this.gameStatus = "Playing";
+            this.gameStatus = "StartScreen";
             this.endScreenShowing = false;
             this.movingObjects = []
             this.bullets=[];
-            this.addDots();
           }
         break;
         case "Won":
         if ( !this.endScreenShowing ) {
+          this.endScreenShowing = true
           this.Title = new createjs.Text("You Won!", "50px Arial", "#00AAAA");
           this.Title.x = 100;
           this.Title.y = 200;
@@ -212,10 +297,9 @@ class Game {
 
         if (key.isPressed("space")) {
           this.stage.children = [];
-          this.gameStatus = "Playing";
+          this.gameStatus = "StartScreen";
           this.endScreenShowing = false;
           this.movingObjects = []
-          this.addDots();
         }
         break;
         default:
