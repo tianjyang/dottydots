@@ -15,18 +15,6 @@ class Bullets extends MovingObjects {
     this.timeCount = 0;
   }
 
-  updateVelocity(impulse) {
-    this.vel[0] += impulse[0];
-    this.vel[1] += impulse[1];
-  }
-
-  incrementRadius(){
-    this.radius += 1
-    let tempX = this.x;
-    let tempY = this.y;
-    this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
-  }
-
   updateState() {
     this.timeCount++;
     super.updateState();

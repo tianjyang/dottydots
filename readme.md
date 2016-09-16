@@ -86,3 +86,30 @@ transitionColor(color){
 
 ### Vector Mathematics
 To reduce redundancy in the code, I developed a library of vector functions that I commonly used to manipulate velocities. This can be found [here](assets/utils.js).
+
+### EaselJS Class Extensions
+To group functions common to all classes, I created a MovingObjects class which inherits from the createJS.Shapes. This allowed me to directly access properties relevant to createJS objects and develop methods common to all moving objects.
+```
+class MovingObjects extends createjs.Shape {
+  //Methods to update position and instantiate an object here
+}
+```
+Each specific element is then an extension of the MovingObjects class. Methods specific to updating the state of an object is then defined in these sub classes.
+```
+class BlasterDot extends MovingObjects {
+  //methods to detect users dot and fire bullets here, etc.
+}
+
+class Bullets extends MovingObjects {
+  //methods to instantiate lifetime timer, etc.
+}
+
+class NpcDots extends MovingObjects {
+  //methods to change color, update velocity, etc.
+}
+
+class UserDot extends MovingObjects {
+  //methods to update velocity based on user input, etc.
+}
+
+```
