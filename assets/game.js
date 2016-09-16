@@ -230,13 +230,6 @@ class Game {
             el.updateState(this.userDot);
           });
 
-
-
-          // const easyGame = (event) => {
-          //   this.stage.removeAllChildren();
-          //   this.movingObjects = []
-          //   this.addDots("Easy")
-          // }
           break;
         case "Playing":
           this.handleKeyboard();
@@ -270,6 +263,7 @@ class Game {
           this.stage.addChild(this.subTitle);
           this.stage.update();
           this.endScreenShowing = true;
+          this.addBlasterDots = false;
         }
           if (key.isPressed("space")) {
             this.stage.children = [];
@@ -293,6 +287,7 @@ class Game {
           this.stage.addChild(this.Title);
           this.stage.addChild(this.subTitle);
           this.stage.update();
+          this.addBlasterDots = false;
         }
 
         if (key.isPressed("space")) {
