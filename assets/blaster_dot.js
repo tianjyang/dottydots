@@ -39,7 +39,13 @@ class BlasterDot extends MovingObjects {
     this.graphics.beginFill(this.color).drawPolyStar(0,0,this.radius,3,0,0)
     if ( this.radius >= 25 ) {
       this.fireBullet()
-      createjs.Sound.play("blaster")
+
+      if (this.game.playSounds) {
+        createjs.Sound.play("blaster")
+      }
+
+
+
       this.radius = this.radiusHolder;
       this.radiusHolder = null;
       this.graphics.clear();

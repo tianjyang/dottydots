@@ -15,6 +15,11 @@ class Bullets extends MovingObjects {
     this.timeCount = 0;
   }
 
+  updateVelocity(impulse) {
+    this.vel[0] += impulse[0];
+    this.vel[1] += impulse[1];
+  }
+
   updateState() {
     this.timeCount++;
     super.updateState();

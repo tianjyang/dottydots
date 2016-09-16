@@ -34,7 +34,7 @@ class UserDot extends MovingObjects {
 
   updateState() {
     let currentPos = [this.x,this.y]
-    if ( Util.distanceBetweenPoints(this.beepPos, currentPos) > 20 ) {
+    if ( this.game.playSounds && Util.distanceBetweenPoints(this.beepPos, currentPos) > 20 ) {
       this.beepPos = [this.x, this.y];
       createjs.Sound.play("beep");
     }

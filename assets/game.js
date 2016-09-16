@@ -23,6 +23,21 @@ class Game {
     createjs.Sound.registerSound("force_field_hit.mp3", "bounce");
     createjs.Sound.registerSound("tng_torpedo_clean.mp3", "blaster");
     this.bullets = []
+    this.playSounds = true
+
+    this.Mute = new createjs.Text("mute", "20px Material+Icons", "#00AAAA");
+    this.Mute.x = 50;
+    this.Mute.y = 50;
+    this.Mute.textBaseline = "alphabetic";
+    this.stage.addChild(this.Mute);
+    this.Mute.addEventListener("click",(event)=>{
+      if (this.playSounds) {
+        this.playSounds = false;
+      } else {
+        this.playSounds = true;
+      }
+    });
+
   }
 
   addDots(difficulty) {
@@ -194,6 +209,7 @@ class Game {
               this.addDots("Easy")
               this.gameStatus = "Playing"
               this.startScreenShowing = false
+              this.stage.addChild(this.Mute);
             });
 
             this.Medium.addEventListener("click",(event)=>{
@@ -202,6 +218,7 @@ class Game {
               this.addDots("Medium")
               this.gameStatus = "Playing"
               this.startScreenShowing = false
+              this.stage.addChild(this.Mute);
             });
 
             this.Hard.addEventListener("click",(event)=>{
@@ -210,6 +227,7 @@ class Game {
               this.addDots("Hard")
               this.gameStatus = "Playing"
               this.startScreenShowing = false
+              this.stage.addChild(this.Mute);
             });
 
             this.BlasterOption.addEventListener("click",(event)=>{
@@ -362,7 +380,13 @@ class Game {
       pos2 = Util.coordFromObj(el);
       distance = Util.distanceBetweenPoints(pos1,pos2);
       if ((radius1 + radius2) > distance) {
-        createjs.Sound.play("death")
+
+        if (this.playSounds) {
+          createjs.Sound.play("death")
+        }
+
+
+
         if ( radius1 > radius2 ) {
           thisScope.userDot.incrementRadius();
           thisScope.stage.removeChild(el);
