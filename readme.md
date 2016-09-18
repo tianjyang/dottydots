@@ -1,7 +1,7 @@
 # Dotty Dots
 # [Live Link](http://tianjyang.github.io)
 ## Background
-Dotty Dots is a game with a simple goal: eat your neighbors until you are the sole circle remaining in the world. Users control a character and traverse a 2D environment, eating smaller circles (or colliding their character into them) while avoiding larger circles. There are five rules to the game:
+Dotty Dots is a game with a simple goal: eat your neighbors until you are the sole dot remaining in world. There are five rules to the game:
 
 1. Eat smaller circles
 1. Don't get eaten by larger circles
@@ -19,8 +19,7 @@ Dotty Dots features:
 1. Ability of NPC dots to flee or charge at the user character
 1. Three difficulty levels with an option to include a bonus challenge
 
-## Wireframes
-This app will consist of a single screen which contains a title, a HTML canvas element, and links to an about page, my linkedin profile, and my github account.
+
 
 ![img](docs/WireFrame.png)
 
