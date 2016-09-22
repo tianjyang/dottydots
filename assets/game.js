@@ -25,7 +25,7 @@ class Game {
     this.bullets = []
     this.playSounds = true
 
-    this.Mute = new createjs.Text("mute", "20px Material+Icons", "#00AAAA");
+    this.Mute = new createjs.Text("mute", "20px Roboto", "#00AAAA");
     this.Mute.x = 50;
     this.Mute.y = 50;
     this.Mute.textBaseline = "alphabetic";
@@ -326,7 +326,7 @@ class Game {
   }
 
   checkIfWon(){
-    if ( this.stage.children.length === 1 ) {
+    if ( this.stage.children.length === 2 ) {
       this.gameStatus = "Won"
     }
   }
