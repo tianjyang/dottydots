@@ -6,12 +6,12 @@ export const randomVecOfLength = (length) => {
 };
 
 export const initialSetupRandomPos = (x,y) => {
-  let outputX = 450;
-  let outputY = 250;
-  while (outputX < 550 && outputX > 350 ) {
+  let outputX = x/2;
+  let outputY = y/2;
+  while (outputX < (x/2+100) && outputX > (x/2-100) ) {
     outputX = Math.random()*x;
   }
-  while (outputY < 350 && outputY > 150 ) {
+  while (outputY < (y/2+100) && outputY > (y/2-100) ) {
     outputY = Math.random()*y;
   }
   return [outputX, outputY];

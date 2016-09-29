@@ -8,11 +8,11 @@ class UserDot extends MovingObjects {
     this.x = 450;
     this.y = 250;
     this.vel = [0,0];
-    this.graphics._fill.style = "rgb(0,0,255)";
-    this.color = "rgb(0,0,255)";
+    this.graphics._fill.style = "rgb(130, 146, 206)";
+    this.color = "rgb(130, 146, 206)";
     this.beepPos = [0,0];
-    this.realPosX = 450;
-    this.realPosY = 250;
+    this.realPosX = stage.canvas.width/2;
+    this.realPosY = stage.canvas.height/2;
     this.vaMx = options.vMax;
   }
 

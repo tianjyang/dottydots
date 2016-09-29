@@ -5,7 +5,7 @@ class BlasterDot extends MovingObjects {
   constructor(stage,game,options) {
     super(stage,game,options);
     this.updateState = this.updateState.bind(this);
-    this.color = [0,0,0];
+    this.color = "rgb(255,255,255)";
     this.normalColor = [0,0,0];
     this.angryColor = [255,0,0];
     this.currentColor = [0,255,0];
@@ -13,7 +13,7 @@ class BlasterDot extends MovingObjects {
     this.graphics.beginFill(this.color).drawPolyStar(0,0,this.radius,3,0,0);
     this.velHolder = null;
     this.radiusHolder = null;
-    let randomPos = Utils.initialSetupRandomPos(900,500);
+    let randomPos = Utils.initialSetupRandomPos(window.innerWidth,window.innerHeight);
   }
 
   updateState(userDot) {

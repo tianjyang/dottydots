@@ -10,8 +10,8 @@ class Bullets extends MovingObjects {
     this.realPosX = this.x;
     this.realPosY = this.y;
     this.vel = options.vel;
-    this.graphics._fill.style = "rgb(0,0,0)";
-    this.color = "rgb(0,0,0)";
+    this.graphics._fill.style = "rgb(255,255,255)";
+    this.color = "rgb(255,255,255)";
     this.timeCount = 0;
   }
 

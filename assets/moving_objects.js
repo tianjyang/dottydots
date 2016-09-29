@@ -10,7 +10,7 @@ class MovingObjects extends createjs.Shape {
     stage.addChild(this);
     this.updateState = this.updateState.bind(this);
     this.graphics.beginFill(this.color).drawCircle(0,0,this.radius);
-    let randomPos = Utils.initialSetupRandomPos(900,500);
+    let randomPos = Utils.initialSetupRandomPos(window.innerWidth,window.innerHeight);
     this.x = randomPos[0];
     this.y = randomPos[1];
     this.realPosX = this.x;

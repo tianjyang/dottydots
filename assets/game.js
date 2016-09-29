@@ -26,7 +26,7 @@ class Game {
     this.bullets = []
     this.playSounds = true
 
-    this.Mute = new createjs.Text("mute", "12px Roboto", "#00AAAA");
+    this.Mute = new createjs.Text("mute", "12px Roboto", "#8292CE");
     this.Mute.x = 50;
     this.Mute.y = 50;
     this.Mute.textBaseline = "alphabetic";
@@ -132,60 +132,62 @@ class Game {
 
   run () {
     const handleTick = (e) => {
+      window.canvas.width = window.innerWidth;
+      window.canvas.height = window.innerHeight;
       switch (this.gameStatus) {
         case "StartScreen":
           if (!this.startScreenShowing) {
             this.startScreenShowing = true;
             this.addDots("Sample")
             this.userDot.x = 1000000
-            this.Title = new createjs.Text("Dotty Dots", "80px SpottedFever", "#00AAAA");
+            this.Title = new createjs.Text("Dotty Dots", "80px SpottedFever", "#8292CE");
             this.Title.x = 100;
             this.Title.y = 200;
             this.Title.textBaseline = "alphabetic";
             this.stage.addChild(this.Title);
-            this.Instructions = new createjs.Text("Eat smaller dots to grow but don't get eaten!", "20px Roboto", "#00AAAA");
+            this.Instructions = new createjs.Text("Eat smaller dots to grow but don't get eaten!", "20px Roboto", "#8292CE");
             this.Instructions.x = 100;
             this.Instructions.y = 250;
             this.Instructions.textBaseline = "alphabetic";
             this.stage.addChild(this.Instructions)
-            this.Controls = new createjs.Text("Use WASD to move", "20px Roboto", "#00AAAA");
+            this.Controls = new createjs.Text("Use WASD to move", "20px Roboto", "#8292CE");
             this.Controls.x = 100;
             this.Controls.y = 280;
             this.Controls.textBaseline = "alphabetic";
             this.stage.addChild(this.Controls)
-            this.Confirm = new createjs.Text("Choose Your Difficulty!", "20px Roboto", "#00AAAA");
+            this.Confirm = new createjs.Text("Choose Your Difficulty!", "20px Roboto", "#8292CE");
             this.Confirm.x = 100;
             this.Confirm.y = 310;
             this.Confirm.textBaseline = "alphabetic";
             this.stage.addChild(this.Confirm);
             this.Easy = new createjs.Shape();
-            this.Easy.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Easy.graphics.beginFill("#A5200B").drawRect(0,0,75,50);
             this.Easy.x = 100;
             this.Easy.y = 350;
             this.stage.addChild(this.Easy);
-            this.EasyText = new createjs.Text("Easy", "20px Roboto", "white");
+            this.EasyText = new createjs.Text("Easy", "20px Roboto", "#FF7F6B");
             this.EasyText.textAlign = "center"
             this.EasyText.textBaseline = "middle"
             this.EasyText.x = 137.5;
             this.EasyText.y = 375;
             this.stage.addChild(this.EasyText);
             this.Medium = new createjs.Shape();
-            this.Medium.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Medium.graphics.beginFill("#A5200B").drawRect(0,0,75,50);
             this.Medium.x = 200;
             this.Medium.y = 350;
             this.stage.addChild(this.Medium);
-            this.MediumText = new createjs.Text("Med.", "20px Roboto", "white");
+            this.MediumText = new createjs.Text("Med.", "20px Roboto", "#FF7F6B");
             this.MediumText.textAlign = "center"
             this.MediumText.textBaseline = "middle"
             this.MediumText.x = 237.5;
             this.MediumText.y = 375;
             this.stage.addChild(this.MediumText);
             this.Hard = new createjs.Shape();
-            this.Hard.graphics.beginFill("red").drawRect(0,0,75,50);
+            this.Hard.graphics.beginFill("#A5200B").drawRect(0,0,75,50);
             this.Hard.x = 300;
             this.Hard.y = 350;
             this.stage.addChild(this.Hard);
-            this.HardText = new createjs.Text("Hard", "20px Roboto", "white");
+            this.HardText = new createjs.Text("Hard", "20px Roboto", "#FF7F6B");
             this.HardText.textAlign = "center"
             this.HardText.textBaseline = "middle"
             this.HardText.x = 337.5;
@@ -193,11 +195,11 @@ class Game {
             this.stage.addChild(this.HardText);
 
             this.BlasterOption = new createjs.Shape();
-            this.BlasterOption.graphics.beginFill("red").drawRect(0,0,175,50);
+            this.BlasterOption.graphics.beginFill("#A5200B").drawRect(0,0,175,50);
             this.BlasterOption.x = 400;
             this.BlasterOption.y = 350;
             this.stage.addChild(this.BlasterOption);
-            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Roboto", "white");
+            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Roboto", "#FF7F6B");
             this.BlasterOptionText.textAlign = "center"
             this.BlasterOptionText.textBaseline = "middle"
             this.BlasterOptionText.x = 487.5;
@@ -254,12 +256,12 @@ class Game {
               let thisContext = this;
               if ( this.addBlasterDots ) {
                 thisContext.addBlasterDots = false;
-                thisContext.BlasterOption.graphics._fill.style="red"
-                thisContext.BlasterOptionText.color = "white"
+                thisContext.BlasterOption.graphics._fill.style="#A5200B"
+                thisContext.BlasterOptionText.color = "#FF7F6B"
               } else {
                 thisContext.addBlasterDots = true;
-                thisContext.BlasterOption.graphics._fill.style="yellow"
-                thisContext.BlasterOptionText.color = "black"
+                thisContext.BlasterOption.graphics._fill.style="#C0CF1A"
+                thisContext.BlasterOptionText.color = "#95A20A"
               }
             });
           }
@@ -288,12 +290,13 @@ class Game {
           this.stage.update();
         break;
         case "Lost":
+        stage.update();
         if ( !this.endScreenShowing ) {
-          this.Title = new createjs.Text("You Lost!", "50px Arial", "#00AAAA");
+          this.Title = new createjs.Text("You Lost!", "50px Arial", "#8292CE");
           this.Title.x = 100;
           this.Title.y = 200;
           this.Title.textBaseline = "alphabetic";
-          this.subTitle = new createjs.Text("Press Space to Try Again!", "20px Arial", "#00AAAA");
+          this.subTitle = new createjs.Text("Press Space to Try Again!", "20px Arial", "#8292CE");
           this.subTitle.x = 100;
           this.subTitle.y = 250;
           this.subTitle.textBaseline = "alphabetic";
@@ -430,16 +433,14 @@ class Game {
     };
 
 
-    let temp = new Bullets(this.stage, this, bulletDotOpts)
-    this.bullets.push(temp)
+    let temp = new Bullets(this.stage, this, bulletDotOpts);
+    this.bullets.push(temp);
 
   }
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  let canvas = document.getElementById("game-canvas");
-  // canvas.style.width = window.innerWidth;
-  // canvas.style.height = window.innerHeight;
+  window.canvas = document.getElementById("game-canvas");
   const stage = new createjs.Stage("game-canvas");
   const game = new Game(stage);
   game.run();

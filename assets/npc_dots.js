@@ -5,10 +5,10 @@ class NpcDots extends MovingObjects {
   constructor(stage,game,options) {
     super(stage,game,options);
     this.updateState = this.updateState.bind(this);
-    this.scaredColor = [255,255,0];
-    this.normalColor = [0,255,0];
-    this.angryColor = [255,0,0];
-    this.currentColor = [0,255,0];
+    this.scaredColor = [216,230,66];
+    this.normalColor = [149,162,10];
+    this.angryColor = [165, 32, 11];
+    this.currentColor = [149,162,10];
     this.transitionColor = this.transitionColor.bind(this);
 
     this.accelScale = 0.05;
