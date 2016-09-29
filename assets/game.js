@@ -8,6 +8,7 @@ import Bullets from './bullet.js';
 class Game {
   constructor(stage) {
     this.stage = stage;
+    this.stage.enableMouseOver();
     window.stage = stage;
     this.movingObjects = [];
     this.run = this.run.bind(this);
@@ -25,7 +26,7 @@ class Game {
     this.bullets = []
     this.playSounds = true
 
-    this.Mute = new createjs.Text("mute", "20px Roboto", "#00AAAA");
+    this.Mute = new createjs.Text("mute", "12px Roboto", "#00AAAA");
     this.Mute.x = 50;
     this.Mute.y = 50;
     this.Mute.textBaseline = "alphabetic";
@@ -137,22 +138,22 @@ class Game {
             this.startScreenShowing = true;
             this.addDots("Sample")
             this.userDot.x = 1000000
-            this.Title = new createjs.Text("Dotty Dots", "50px Arial", "#00AAAA");
+            this.Title = new createjs.Text("Dotty Dots", "80px SpottedFever", "#00AAAA");
             this.Title.x = 100;
             this.Title.y = 200;
             this.Title.textBaseline = "alphabetic";
             this.stage.addChild(this.Title);
-            this.Instructions = new createjs.Text("Eat smaller dots to grow but don't get eaten!", "20px Arial", "#00AAAA");
+            this.Instructions = new createjs.Text("Eat smaller dots to grow but don't get eaten!", "20px Roboto", "#00AAAA");
             this.Instructions.x = 100;
             this.Instructions.y = 250;
             this.Instructions.textBaseline = "alphabetic";
             this.stage.addChild(this.Instructions)
-            this.Controls = new createjs.Text("Use WASD to move", "20px Arial", "#00AAAA");
+            this.Controls = new createjs.Text("Use WASD to move", "20px Roboto", "#00AAAA");
             this.Controls.x = 100;
             this.Controls.y = 280;
             this.Controls.textBaseline = "alphabetic";
             this.stage.addChild(this.Controls)
-            this.Confirm = new createjs.Text("Choose Your Difficulty!", "20px Arial", "#00AAAA");
+            this.Confirm = new createjs.Text("Choose Your Difficulty!", "20px Roboto", "#00AAAA");
             this.Confirm.x = 100;
             this.Confirm.y = 310;
             this.Confirm.textBaseline = "alphabetic";
@@ -162,7 +163,7 @@ class Game {
             this.Easy.x = 100;
             this.Easy.y = 350;
             this.stage.addChild(this.Easy);
-            this.EasyText = new createjs.Text("Easy", "20px Arial", "white");
+            this.EasyText = new createjs.Text("Easy", "20px Roboto", "white");
             this.EasyText.textAlign = "center"
             this.EasyText.textBaseline = "middle"
             this.EasyText.x = 137.5;
@@ -173,7 +174,7 @@ class Game {
             this.Medium.x = 200;
             this.Medium.y = 350;
             this.stage.addChild(this.Medium);
-            this.MediumText = new createjs.Text("Medium", "20px Arial", "white");
+            this.MediumText = new createjs.Text("Med.", "20px Roboto", "white");
             this.MediumText.textAlign = "center"
             this.MediumText.textBaseline = "middle"
             this.MediumText.x = 237.5;
@@ -184,7 +185,7 @@ class Game {
             this.Hard.x = 300;
             this.Hard.y = 350;
             this.stage.addChild(this.Hard);
-            this.HardText = new createjs.Text("Hard", "20px Arial", "white");
+            this.HardText = new createjs.Text("Hard", "20px Roboto", "white");
             this.HardText.textAlign = "center"
             this.HardText.textBaseline = "middle"
             this.HardText.x = 337.5;
@@ -196,12 +197,31 @@ class Game {
             this.BlasterOption.x = 400;
             this.BlasterOption.y = 350;
             this.stage.addChild(this.BlasterOption);
-            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Arial", "white");
+            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Roboto", "white");
             this.BlasterOptionText.textAlign = "center"
             this.BlasterOptionText.textBaseline = "middle"
             this.BlasterOptionText.x = 487.5;
             this.BlasterOptionText.y = 375;
             this.stage.addChild(this.BlasterOptionText);
+
+            const highlight = (event) => {
+              let a = createjs.Tween.get(event.target)
+              .to({scaleY:1.1},100);
+            };
+
+            const unhighlight = (event) => {
+              let b = createjs.Tween.get(event.target)
+              .to({scaleY:1},100);
+            };
+
+            this.Easy.addEventListener("mouseover",highlight);
+            this.Easy.addEventListener("mouseout",unhighlight);
+            this.Medium.addEventListener("mouseover",highlight);
+            this.Medium.addEventListener("mouseout",unhighlight);
+            this.Hard.addEventListener("mouseover",highlight);
+            this.Hard.addEventListener("mouseout",unhighlight);
+            this.BlasterOption.addEventListener("mouseover",highlight);
+            this.BlasterOption.addEventListener("mouseout",unhighlight);
 
             this.Easy.addEventListener("click",(event)=>{
               this.stage.removeAllChildren();
@@ -417,6 +437,9 @@ class Game {
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
+  let canvas = document.getElementById("game-canvas");
+  // canvas.style.width = window.innerWidth;
+  // canvas.style.height = window.innerHeight;
   const stage = new createjs.Stage("game-canvas");
   const game = new Game(stage);
   game.run();

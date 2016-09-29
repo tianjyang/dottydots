@@ -4,6 +4,29 @@
   border: 2px solid black;
 }
 
+@font-face {
+    font-family: SpottedFever;
+    src: url('../assets/SpottedFever.TTF');
+    font-weight: normal;
+}
+
+body {
+  margin:0px;
+}
+
+.header {
+  height:75px;
+}
+
+.dark-primary-color    { background: #455A64; }
+.default-primary-color { background: #607D8B; }
+.light-primary-color   { background: #CFD8DC; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+.white-text            {color: #FFFFFF}
 
 .links {
   width:900px;
@@ -14,6 +37,8 @@
 
 .title {
   text-align: center;
+  margin:0px;
+  padding:0px;
 }
 
 
