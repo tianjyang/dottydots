@@ -114,16 +114,16 @@ class Game {
 
   handleKeyboard(){
     let impulse = [0,0];
-    if(key.isPressed("w")) {
+    if(key.isPressed("w") || key.isPressed("up")) {
       impulse[1] = -.05;
     }
-    if (key.isPressed("a"))  {
+    if (key.isPressed("a") || key.isPressed("left"))  {
       impulse[0] = -.05;
     }
-    if (key.isPressed("d"))  {
+    if (key.isPressed("d") || key.isPressed("right"))  {
       impulse[0] = .05;
     }
-    if (key.isPressed("s"))  {
+    if (key.isPressed("s") || key.isPressed("down"))  {
       impulse[1] = .05;
     }
     this.userDot.updateVelocity(impulse)
@@ -199,7 +199,7 @@ class Game {
             this.BlasterOption.x = 400;
             this.BlasterOption.y = 350;
             this.stage.addChild(this.BlasterOption);
-            this.BlasterOptionText = new createjs.Text("Bonus Challenge?", "20px Roboto", "#FF7F6B");
+            this.BlasterOptionText = new createjs.Text("Extra Hard", "20px Roboto", "#FF7F6B");
             this.BlasterOptionText.textAlign = "center"
             this.BlasterOptionText.textBaseline = "middle"
             this.BlasterOptionText.x = 487.5;
@@ -227,42 +227,50 @@ class Game {
 
             this.Easy.addEventListener("click",(event)=>{
               this.stage.removeAllChildren();
-              this.movingObjects = []
-              this.addDots("Easy")
-              this.gameStatus = "Playing"
-              this.startScreenShowing = false
+              this.movingObjects = [];
+              this.addDots("Easy");
+              this.gameStatus = "Playing";
+              this.startScreenShowing = false;
               this.stage.addChild(this.Mute);
             });
 
             this.Medium.addEventListener("click",(event)=>{
               this.stage.removeAllChildren();
-              this.movingObjects = []
-              this.addDots("Medium")
-              this.gameStatus = "Playing"
-              this.startScreenShowing = false
+              this.movingObjects = [];
+              this.addDots("Medium");
+              this.gameStatus = "Playing";
+              this.startScreenShowing = false;
               this.stage.addChild(this.Mute);
             });
 
             this.Hard.addEventListener("click",(event)=>{
               this.stage.removeAllChildren();
-              this.movingObjects = []
-              this.addDots("Hard")
-              this.gameStatus = "Playing"
-              this.startScreenShowing = false
+              this.movingObjects = [];
+              this.addDots("Hard");
+              this.gameStatus = "Playing";
+              this.startScreenShowing = false;
               this.stage.addChild(this.Mute);
             });
 
             this.BlasterOption.addEventListener("click",(event)=>{
-              let thisContext = this;
-              if ( this.addBlasterDots ) {
-                thisContext.addBlasterDots = false;
-                thisContext.BlasterOption.graphics._fill.style="#A5200B"
-                thisContext.BlasterOptionText.color = "#FF7F6B"
-              } else {
-                thisContext.addBlasterDots = true;
-                thisContext.BlasterOption.graphics._fill.style="#C0CF1A"
-                thisContext.BlasterOptionText.color = "#95A20A"
-              }
+              this.stage.removeAllChildren();
+              this.addBlasterDots = true;
+              this.movingObjects = [];
+              this.addDots("Hard");
+              this.gameStatus = "Playing";
+              this.startScreenShowing = false;
+              this.stage.addChild(this.Mute);
+
+              // let thisContext = this;
+              // if ( this.addBlasterDots ) {
+              //   thisContext.addBlasterDots = false;
+              //   thisContext.BlasterOption.graphics._fill.style="#A5200B"
+              //   thisContext.BlasterOptionText.color = "#FF7F6B"
+              // } else {
+              //   thisContext.addBlasterDots = true;
+              //   thisContext.BlasterOption.graphics._fill.style="#C0CF1A"
+              //   thisContext.BlasterOptionText.color = "#95A20A"
+              // }
             });
           }
           this.stage.update();

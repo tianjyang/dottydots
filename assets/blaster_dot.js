@@ -90,7 +90,7 @@ class BlasterDot extends MovingObjects {
   seesUser(userDot) {
     let pos1 = Utils.coordFromObj(userDot);
     let pos2 = Utils.coordFromObj(this);
-    return Utils.distanceBetweenPoints(pos1,pos2) < 200
+    return Utils.distanceBetweenPoints(pos1,pos2) < this.stage.canvas.width/2;
   }
 }
 export default BlasterDot;
